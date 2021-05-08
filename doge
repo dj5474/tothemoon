@@ -54,7 +54,10 @@ while True:
             current_price = get_current_price("KRW-DOGE")
             if target_price < current_price and ma10 < current_price:
                 krw = get_balance("KRW")
-                if krw > 5000:
+                # 잔고 50만원 이상이면 50만원만 매수
+                if krw > 500000:
+                    upbit.buy_market_order("KRW-DOGE", 500000)
+                else
                     upbit.buy_market_order("KRW-DOGE", krw*0.9995)
         else:
             doge = get_balance("DOGE")
