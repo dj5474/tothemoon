@@ -2,6 +2,7 @@ import time
 import pyupbit
 import datetime
 import requests
+import threading
 
 access = "your-access"
 secret = "your-secret"
@@ -54,19 +55,26 @@ def get_current_price(ticker):
     """현재가 조회"""
     return pyupbit.get_orderbook(tickers=ticker)[0]["orderbook_units"][0]["ask_price"]
 
+def msg_repeat():
+    target_price = get_live_target_price("KRW-BTC", 0.4)
+    post_message(myToken,"#stock", target_price)
+    
+    threading.Timer(10800, msg_repeat).start()
+    
 # 로그인
 upbit = pyupbit.Upbit(access, secret)
 print("autotrade start")
 # 시작 메세지 슬랙 전송
 post_message(myToken,"#stock", "autotrade start")
-target_price = get_live_target_price("KRW-BTC", 0.4)
-post_message(myToken,"#stock", target_price)
+msg_repeat()
 
 while True:
     try:
         now = datetime.datetime.now()
         start_time = get_start_time("KRW-BTC")
         end_time = start_time + datetime.timedelta(days=1)
+        
+        if now.strftime('H') in ['9', '12', '15', '18', '21', '0']
 
         if start_time < now < end_time - datetime.timedelta(seconds=20):
             target_price = get_live_target_price("KRW-BTC", 0.4)
