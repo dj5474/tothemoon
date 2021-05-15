@@ -55,13 +55,15 @@ def get_current_price(ticker):
     """현재가 조회"""
     return pyupbit.get_orderbook(tickers=ticker)[0]["orderbook_units"][0]["ask_price"]
 
+'''
 def msg_repeat():
     """3시간마다 목표가 전송"""
     target_price = get_live_target_price("KRW-DOGE", 0.4)
     post_message(myToken,"#stock", target_price)
     
     threading.Timer(10800, msg_repeat).start()
-    
+'''
+
 # 로그인
 upbit = pyupbit.Upbit(access, secret)
 print("autotrade start")
@@ -69,14 +71,14 @@ print("autotrade start")
 post_message(myToken,"#stock", "autotrade start")
 target_price = get_live_target_price("KRW-DOGE", 0.4)
 post_message(myToken,"#stock", target_price)
+#msg_repeat()
 
 while True:
     try:
         now = datetime.datetime.now()
         start_time = get_start_time("KRW-DOGE")
         end_time = start_time + datetime.timedelta(days=1)
-        msg_repeat()
-
+        
         if start_time < now < end_time - datetime.timedelta(seconds=20):
             target_price = get_live_target_price("KRW-DOGE", 0.4)
             ma15 = get_ma15("KRW-DOGE")
