@@ -58,7 +58,11 @@ def get_current_price(ticker):
 def msg_repeat():
     """3시간마다 목표가 전송"""
     target_price = get_live_target_price("KRW-BTC", 0.4)
-    post_message(myToken,"#stock", target_price)
+    #post_message(myToken,"#stock", target_price)
+    response = requests.post("https://slack.com/api/chat.postMessage",
+        headers={"Authorization": "Bearer "+ "xoxb-2051832874548-2042595187461-B4k3Dtr4VNDK8IyhQb2Uq7TW"},
+        data={"channel": "#stock","text": target_price}
+    )
     
     threading.Timer(30, msg_repeat).start()
     
@@ -69,13 +73,14 @@ print("autotrade start")
 post_message(myToken,"#stock", "autotrade start")
 target_price = get_live_target_price("KRW-BTC", 0.4)
 post_message(myToken,"#stock", target_price)
- 
+msg_repeat()
+
 while True:
     try:
         now = datetime.datetime.now()
         start_time = get_start_time("KRW-BTC")
         end_time = start_time + datetime.timedelta(days=1)
-        msg_repeat()
+        
      
         if start_time < now < end_time - datetime.timedelta(seconds=20):
             target_price = get_live_target_price("KRW-BTC", 0.4)
