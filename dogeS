@@ -87,12 +87,12 @@ while True:
                 krw = get_balance("KRW")
                 doge = get_balance("DOGE")
                 if krw > 500000 and doge < 800:
-                    buy_result = upbit.buy_market_order("KRW-DOGE", 500000)['volume']
+                    buy_result = upbit.buy_market_order("KRW-DOGE", 500000)
                     post_message(myToken,"#stock", "DOGE buy : " + buy_result)
         else:
             doge = get_balance("DOGE")
             if doge > 8:
-                sell_result = upbit.sell_market_order("KRW-DOGE", doge*0.9995)['volume']
+                sell_result = upbit.sell_market_order("KRW-DOGE", doge*0.9995)
                 post_message(myToken,"#stock", "DOGE sell : " + sell_result)
         time.sleep(1)
     except Exception as e:
