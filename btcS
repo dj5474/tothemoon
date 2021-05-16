@@ -77,12 +77,12 @@ while True:
                 krw = get_balance("KRW")
                 btc = get_balance("BTC")
                 if krw > 500000 and btc < 0.007:
-                    buy_result = upbit.buy_market_order("KRW-BTC", 500000)['volume']
+                    buy_result = upbit.buy_market_order("KRW-BTC", 500000)
                     post_message(myToken,"#stock", "BTC buy : " +str(buy_result))
         else:
             btc = get_balance("BTC")
             if btc > 0.00008:
-                sell_result = upbit.sell_market_order("KRW-BTC", btc*0.9995)['volume']
+                sell_result = upbit.sell_market_order("KRW-BTC", btc*0.9995)
                 post_message(myToken,"#stock", "BTC sell : " +str(sell_result))
         time.sleep(1)
     except Exception as e:
